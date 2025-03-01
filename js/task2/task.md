@@ -1,0 +1,10 @@
+- Create a JS file and write a function that:
+  - Checks all the numbers between 1 and 100 (inclusive);
+  - For multiples of 5 prints to the console Ping instead of the actual number;
+  - For multiples of 7 prints Pong;
+  - For multiples of both 5 and 7 prints PingPong;
+  - For any other situation prints the actual number.
+- Create an HTML page and load the JS file to see the results in the browser’s console.
+- Create another function that returns a string with the values concatenated, using the same logic as above.
+- Call this function and display the result in the browser’s console.
+- Refactor the code above so that the conversion logic isn’t duplicated between the two functions.

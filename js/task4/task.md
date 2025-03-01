@@ -1,0 +1,31 @@
+- Create a JS file containing a `TasksList` class that:
+  - Contains a list of tasks described by `id` (number), `name` (string), `priority` (number 1-5), and `done` (boolean)
+  - Defines a method `add` for creating tasks with `name` and `priority`
+    - If the `priority` is missing, the value `1` will be used instead
+    - The `name` of the tasks must be unique in the list
+    - The `id` for the new task is auto-incremented
+  - Defines a method `remove` for deleting a task by `id`
+    - Nothing should happen if trying to remove a task that doesn’t exist
+  - Defines a method `getAll` for retrieving all the tasks ordered by the last sorting method used (see below)
+  - Defines a method `getById` for returning the task with the given id, or undefined if it doesn’t exist
+  - Defines a method `getIf` that takes a callback as an argument with the signature of condition(task), which returns a boolean, and returns the subset of tasks matching the provided condition, or an empty array if there are no matches
+  - Defines a method `sortByName` for sorting the tasks in place ascending by name
+  - Defines a method `sortByPriority` for sorting the tasks in place descending by priority
+  - Defines a method `printAll` for logging all the tasks to the console, ordered by the last sorting method used
+- Create another JS file and:
+  - Create an instance of the `TasksList`
+  - Call all the methods defined above and play with all the options, for example:
+    - Add a number of tasks
+    - Sort the tasks by name
+    - Retrieve the list of tasks
+    - Get the details of a specific task
+    - Remove a task
+    - Add more tasks and verify that the `id` is incremented correctly
+    - Retrieve all the tasks not done that start with the letter `A`
+    - Retrieve all the tasks done having more than two words in their name
+    - Sort the tasks by name
+    - Log some of the data above to the console
+    - Use the DevTools to check the values
+    - Print the tasks list to the console, etc.
+  - Create other instances of `TasksList`
+- Create an HTML file and load the JS code in the browser.
