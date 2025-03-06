@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Capital Game</title>
+    <style>
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        .button.correct {
+            background-color: green;
+            border: 2px solid green;
+        }
+        .button.incorrect {
+            background-color: red;
+            border: 2px solid red;
+        }
+        #ranking {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Guess the Capital</h1>
+<div id="game">
+    <div id="question"></div>
+    <div id="answers">
+        <button class="button" id="option1"></button>
+        <button class="button" id="option2"></button>
+        <button class="button" id="option3"></button>
+        <button class="button" id="option4"></button>
+    </div>
+</div>
+<script type="module" src="script.js"></script>
+</body>
+</html>
