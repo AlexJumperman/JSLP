@@ -10,8 +10,8 @@ const getLocation = function(city){
         .then(function(response){
             const city = response.data.results[0];
             return {
-                'lat': city.latitude,
-                'long': city.longitude
+                lat: city.latitude,
+                long: city.longitude
             }
         });
 }
