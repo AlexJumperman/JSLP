@@ -5,5 +5,5 @@ form.addEventListener('submit', (e) => {
 
     fetch('/weather?address=' + document.getElementById('address-input').value)
         .then(result => result.json())
-        .then(result => console.log(result));
+        .then(result => document.getElementById('weather-result').innerText = `Temperature: ${result.temperature} ${result.unit}`);
 })
