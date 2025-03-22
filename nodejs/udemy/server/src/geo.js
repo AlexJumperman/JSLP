@@ -9,7 +9,7 @@ const getLocation = function(city){
         })
         .then(function({data}){
             const city = data.results[0];
-            console.log(city.name, city.country);
+            // console.log(city.name, city.country);
             return {
                 lat: city.latitude,
                 long: city.longitude
