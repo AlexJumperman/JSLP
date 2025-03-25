@@ -1,25 +1,19 @@
-const { MongoClient, ObjectId } = require("mongodb");
+const express = require('express');
+require('./src/db/mongoose');
+const User = require('./src/models/user');
 
-MongoClient.connect('mongodb://localhost:27017')
-    .then(client => {
-        const db = client.db('task-manager');
+const app = express();
+const port = process.env.PORT || 3000;
 
-        // db.collection('tasks').findOne({_id: new ObjectId('67dffb166d92a18a4c762179')})
-        //     .then(r => console.log(r));
-        //
-        // db.collection('tasks').find({completed: false}).toArray()
-        //     .then(r => console.log(r));
+app.use(express.json());
 
-        // db.collection('tasks').updateMany({
-        //     completed: false
-        // }, {
-        //     $set: {
-        //         completed: true
-        //     }
-        // }).then(r => console.log(r));
-
-        db.collection('tasks').deleteOne({
-            description: 'task 5'
-        }).then(r => console.log(r));
+app.post('/user', (req, res) => {
+    const user = new User(req.body);
+    user.save().then(r => {
+        res.send('success');
+    }).catch(e => {
+        res.send(e);
     })
+})
 
+app.listen(port, () => {console.log('Server is up on port ' + port)})
