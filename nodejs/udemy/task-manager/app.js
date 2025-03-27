@@ -1,6 +1,7 @@
 const express = require('express');
 require('./src/db/mongoose');
 const User = require('./src/models/user');
+const Task = require('./src/models/task')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -36,5 +37,13 @@ app.get('/users/:id', (req, res) => {
     })
 })
 
+app.post('/tasks', (req, res) => {
+    const task = new Task(req.body);
+    task.save().then(r => {
+        res.send(task);
+    }).catch(e => {
+        res.status(400).send(e);
+    })
+})
 
 app.listen(port, () => {console.log('Server is up on port ' + port)})
