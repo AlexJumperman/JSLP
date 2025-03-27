@@ -37,6 +37,28 @@ app.get('/users/:id', (req, res) => {
     })
 })
 
+app.patch('/users/:id', (req, res) => {
+    User.findByIdAndUpdate(req.params.id, req.body, {runValidators: true}).then(r => {
+        if(!r){
+            return res.status(404).send();
+        }
+        res.send(r);
+    }).catch(e => {
+        res.status(500).send(e);
+    })
+})
+
+app.delete('/users/:id', (req, res) => {
+    User.findByIdAndDelete(req.params.id).then(r => {
+        if(!r){
+            return res.status(404).send();
+        }
+        res.send(r);
+    }).catch(e => {
+        res.status(500).send(e);
+    })
+})
+
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
     task.save().then(r => {
