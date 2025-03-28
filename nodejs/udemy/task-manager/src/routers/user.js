@@ -32,14 +32,20 @@ router.get('/users/:id', (req, res) => {
 })
 
 router.patch('/users/:id', (req, res) => {
-    User.findByIdAndUpdate(req.params.id, req.body, {runValidators: true}).then(r => {
-        if(!r){
-            return res.status(404).send();
-        }
-        res.send(r);
-    }).catch(e => {
-        res.status(500).send(e);
-    })
+    User.findById(req.params.id)
+        .then(user => {
+            if(!user){
+                return res.status(404).send();
+            }
+            Object.keys(req.body).forEach(prop => user[prop] = req.body[prop]);
+            return user.save();
+        })
+        .then(r => {
+            res.send(r);
+        })
+        .catch(e => {
+            res.status(500).send(e);
+        });
 })
 
 router.delete('/users/:id', (req, res) => {
