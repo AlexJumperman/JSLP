@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -9,6 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         require: true,
         lowercase: true,
         trim: true
@@ -20,7 +22,7 @@ const userSchema = new mongoose.Schema({
         minLength: 7,
         validate(v){
             if(v.toLowerCase().includes("password")){
-                throw Error('Password does not contain password');
+                throw Error('Password does not contain password')
             }
         }
     },
@@ -30,15 +32,40 @@ const userSchema = new mongoose.Schema({
         default: 0,
         validate(v){
             if(v < 0){
-                throw new Error('Age must be positive');
+                throw new Error('Age must be positive')
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 });
+
+userSchema.statics.findByCreds = async (email, password) => {
+    const user = await User.findOne({email})
+    if(!user){
+        throw new Error('Unable to login')
+    }
+    const isMatch = await bcrypt.compare(password, user.password)
+    if(!isMatch){
+        throw new Error('Unable to login')
+    }
+    return user
+}
+
+userSchema.methods.generateAuthToken = async function(){
+    const token = jwt.sign({_id: this._id.toString()}, 'xxx')
+    this.tokens = this.tokens.concat({token})
+    await this.save()
+    return token;
+}
 
 userSchema.pre('save', async function (next) {
     if(this.isModified('password')){
-        this.password = await bcrypt.hash(this.password, 8);
+        this.password = await bcrypt.hash(this.password, 8)
     }
     next();
 })
