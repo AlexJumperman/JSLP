@@ -56,44 +56,23 @@ router.get('/users/:me', auth, (req, res) => {
     res.send(req.user)
 })
 
-router.get('/users/:id', auth, (req, res) => {
-    const _id = req.params.id;
-    User.findById(_id).then(r => {
-        if(!r){
-            return res.status(404).send();
-        }
-        res.send(r);
-    }).catch(e => {
-        res.status(500).send(e);
-    })
+router.patch('/users/me', auth, async (req, res) => {
+    try{
+        Object.keys(req.body).forEach(prop => req.user[prop] = req.body[prop])
+        await req.user.save()
+        res.send(req.user)
+    } catch (e){
+        res.status(500).send(e)
+    }
 })
 
-router.patch('/users/:id', auth, (req, res) => {
-    User.findById(req.params.id)
-        .then(user => {
-            if(!user){
-                return res.status(404).send();
-            }
-            Object.keys(req.body).forEach(prop => user[prop] = req.body[prop]);
-            return user.save();
-        })
-        .then(r => {
-            res.send(r);
-        })
-        .catch(e => {
-            res.status(500).send(e);
-        });
-})
-
-router.delete('/users/:id', auth, (req, res) => {
-    User.findByIdAndDelete(req.params.id).then(r => {
-        if(!r){
-            return res.status(404).send();
-        }
-        res.send(r);
-    }).catch(e => {
+router.delete('/users/me', auth, async (req, res) => {
+    try{
+        await req.user.deleteOne()
+        res.send(req.user)
+    } catch (e){
         res.status(500).send(e);
-    })
+    }
 })
 
 module.exports = router;
