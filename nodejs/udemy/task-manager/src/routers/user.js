@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require("../models/user");
 const router = new express.Router();
+const auth = require('../middleware/auth')
 
 router.post('/login', async (req, res) => {
     try{
@@ -12,7 +13,27 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.post('/users', async (req, res) => {
+router.post('/logout', auth, async (req, res) => {
+    try{
+        req.user.tokens = req.user.tokens.filter(token => token.token !== req.token)
+        await req.user.save()
+        res.send(req.user)
+    } catch (e){
+        res.status(500).send()
+    }
+})
+
+router.post('/logoutAll', auth, async (req, res) => {
+    try{
+        req.user.tokens = []
+        await req.user.save()
+        res.send(req.user)
+    } catch (e){
+        res.status(500).send()
+    }
+})
+
+router.post('/users', auth, async (req, res) => {
     try{
         const user = new User(req.body);
         await user.save();
@@ -23,7 +44,7 @@ router.post('/users', async (req, res) => {
     }
 })
 
-router.get('/users', (req, res) => {
+router.get('/users', auth, (req, res) => {
     User.find({}).then(r => {
         res.send(r);
     }).catch(e => {
@@ -31,7 +52,11 @@ router.get('/users', (req, res) => {
     })
 })
 
-router.get('/users/:id', (req, res) => {
+router.get('/users/:me', auth, (req, res) => {
+    res.send(req.user)
+})
+
+router.get('/users/:id', auth, (req, res) => {
     const _id = req.params.id;
     User.findById(_id).then(r => {
         if(!r){
@@ -43,7 +68,7 @@ router.get('/users/:id', (req, res) => {
     })
 })
 
-router.patch('/users/:id', (req, res) => {
+router.patch('/users/:id', auth, (req, res) => {
     User.findById(req.params.id)
         .then(user => {
             if(!user){
@@ -60,7 +85,7 @@ router.patch('/users/:id', (req, res) => {
         });
 })
 
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', auth, (req, res) => {
     User.findByIdAndDelete(req.params.id).then(r => {
         if(!r){
             return res.status(404).send();
