@@ -44,14 +44,6 @@ router.post('/users', auth, async (req, res) => {
     }
 })
 
-router.get('/users', auth, (req, res) => {
-    User.find({}).then(r => {
-        res.send(r);
-    }).catch(e => {
-        res.status(500).send();
-    })
-})
-
 router.get('/users/:me', auth, (req, res) => {
     res.send(req.user)
 })
