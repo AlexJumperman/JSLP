@@ -33,7 +33,7 @@ router.post('/logoutAll', auth, async (req, res) => {
     }
 })
 
-router.post('/users', auth, async (req, res) => {
+router.post('/users', async (req, res) => {
     try{
         const user = new User(req.body);
         await user.save();
