@@ -55,6 +55,14 @@ userSchema.virtual('tasks', {
     foreignField: 'owner',
 })
 
+userSchema.methods.toJSON = function() {
+    const user = this.toObject();
+    delete user.password;
+    delete user.tokens;
+    delete user.avatar;
+    return user;
+}
+
 userSchema.statics.findByCreds = async (email, password) => {
     const user = await User.findOne({email})
     if(!user){

@@ -93,4 +93,8 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
     res.status(200).send();
 })
 
+router.get('/users/me/avatar', auth, async (req, res) => {
+    res.status(200).set('Content-Type', 'image/png').send(req.user.avatar);
+})
+
 module.exports = router;
