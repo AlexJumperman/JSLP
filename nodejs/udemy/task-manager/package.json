@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node src/app.js",
-    "dev": "env-cmd -f .env.dev nodemon src/app.js",
+    "dev": "env-cmd -f .env.dev nodemon src/index.js",
     "test": "env-cmd -f .env.test jest"
   },
   "jest": {
