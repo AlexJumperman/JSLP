@@ -6,6 +6,12 @@
     <title>Simple HTML Page</title>
 </head>
 <body>
-<h1>Simple HTML Page</h1>
+    <h1>Socket Chat</h1>
+    <form id="chat-form">
+        <input type="text" id="message" placeholder="Enter your name">
+        <input type="submit" id="submit" value="Send">
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
 </body>
 </html>
