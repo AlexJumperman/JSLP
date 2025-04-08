@@ -7,6 +7,10 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', (message) => {
         io.emit('sendMessage', message);
     })
+    socket.on('sendLocation', (location, callback) => {
+        io.emit('sendMessage', `https://google.com/maps?q=${location.latitude},${location.longitude}`);
+        callback('Location sent')
+    })
 })
 
 server.listen(3000, () => {
